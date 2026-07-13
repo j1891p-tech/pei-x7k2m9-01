@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inglés Grado 1 · Audios · PEI</title>
+<style>
+  :root{
+    --tinta:#1a1a1a; --suave:#6b6b6b; --linea:#e2e2e2;
+    --acento:#0b6b5e; --alerta:#a3341f; --fondo:#fbfaf8; --tarjeta:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+       background:var(--fondo);color:var(--tinta);line-height:1.5;
+       padding:20px 16px 60px}
+  .wrap{max-width:640px;margin:0 auto}
+  header{padding:8px 0 24px;border-bottom:2px solid var(--tinta);margin-bottom:24px}
+  h1{font-size:22px;letter-spacing:-.3px}
+  .sub{font-size:13px;color:var(--suave);margin-top:6px}
+
+  #activa{background:var(--tarjeta);border:2px solid var(--acento);
+          border-radius:12px;padding:20px;margin-bottom:28px;display:none}
+  #activa.on{display:block}
+  #a-n{font-size:12px;font-weight:700;color:var(--acento);letter-spacing:1px}
+  #a-t{font-size:19px;font-weight:600;margin:4px 0 2px}
+  #a-h{font-size:13px;color:var(--suave);margin-bottom:14px}
+  audio{width:100%;height:44px;display:block}
+
+  #err{display:none;margin-top:14px;padding:12px;border-radius:8px;
+       background:#fdf0ec;border:1px solid var(--alerta);
+       color:var(--alerta);font-size:12.5px;line-height:1.6}
+  #err.on{display:block}
+  #err code{display:block;margin-top:6px;font-size:11.5px;
+            word-break:break-all;color:#5a1d10}
+
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;
+     color:var(--suave);margin:26px 0 10px;font-weight:600}
+  ul{list-style:none}
+  li{border-bottom:1px solid var(--linea)}
+  li a{display:flex;align-items:center;gap:14px;padding:13px 4px;
+       text-decoration:none;color:inherit;cursor:pointer}
+  li a:hover{background:#f2f0ec}
+  li.sel a{background:#eef5f3}
+  .num{flex:0 0 34px;height:34px;border-radius:50%;background:#efece7;
+       color:var(--suave);display:flex;align-items:center;justify-content:center;
+       font-size:12px;font-weight:700}
+  li.sel .num{background:var(--acento);color:#fff}
+  .txt{flex:1;min-width:0}
+  .ti{font-size:15px;font-weight:500}
+  .ho{font-size:12px;color:var(--suave)}
+  .ic{font-size:15px;color:var(--suave)}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--linea);
+         font-size:11px;color:var(--suave);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Inglés · Grado 1</h1>
+    <div class="sub">31 pistas · Proyecto Editorial Ideas</div>
+  </header>
+
+  <div id="activa">
+    <div id="a-n"></div>
+    <div id="a-t"></div>
+    <div id="a-h"></div>
+    <audio id="a-p" controls preload="metadata"></audio>
+    <div id="err">
+      No se pudo cargar el audio. Revise que el archivo exista con ese nombre exacto
+      (minúsculas, con el cero: <b>p01.mp3</b>, no <b>P1.mp3</b>).
+      <code id="err-url"></code>
+    </div>
+  </div>
+
+  <div id="lista"></div>
+
+  <footer>
+    Marco: Currículo Sugerido de Inglés Transición–5.º · DBA de Inglés G1 · EBC Guía 22 ·
+    Preparatorio Pre-A1 (MEN, 2016).<br>
+    Voz generada con Piper (modelo LibriTTS). Corpus LibriTTS · CC BY 4.0.<br>
+    © Proyecto Editorial Ideas
+  </footer>
+
+</div>
+
+<script>
+// ─── Dónde viven los MP3, relativo a este archivo ────────────────
+const AUDIO = "";   // los MP3 estan en la raiz del repo, junto a index.html
+// ─────────────────────────────────────────────────────────────────
+
+const MODULOS = [
+  ["Módulo 1 · Cuido mi cuerpo", [
+    ["01", 1,  "Hello! I am…"],
+    ["02", 2,  "Listen and point"],
+    ["03", 3,  "Ronda «Head and hands»"],
+    ["04", 4,  "Color the body"],
+    ["05", 5,  "Nose, mouth, ears"],
+    ["06", 7,  "My morning routine"],
+    ["07", 9,  "Numbers 1-5"],
+    ["08", 11, "Story: Ana's hands"],
+  ]],
+  ["Módulo 2 · Valoro nuestras diferencias", [
+    ["09", 13, "I am a boy / I am a girl"],
+    ["10", 14, "How old are you?"],
+    ["11", 15, "Tall / short"],
+    ["12", 16, "Long hair / short hair"],
+    ["13", 17, "My mother has long hair"],
+    ["14", 19, "Ronda «We are different»"],
+    ["15", 20, "Please · Thank you · Sorry"],
+    ["16", 23, "Story: The sad girl"],
+  ]],
+  ["Módulo 3 · Cuido mi escuela", [
+    ["17", 25, "Listen and point: my classroom"],
+    ["18", 26, "Use red to color the circle"],
+    ["19", 27, "Shapes around me"],
+    ["20", 29, "The pencil is on the table"],
+    ["21", 30, "Ronda «Clean up!»"],
+    ["22", 31, "Pick up · throw · clean"],
+    ["23", 35, "Story: The dirty classroom"],
+  ]],
+  ["Módulo 4 · Colaboro en mi casa", [
+    ["24", 37, "This is my family"],
+    ["25", 39, "This is my mother"],
+    ["26", 40, "My house"],
+    ["27", 41, "The cat is on the bed"],
+    ["28", 42, "Help · share · wash · cook"],
+    ["29", 44, "Ronda «I help my family»"],
+    ["30", 46, "Story: I help my mother"],
+    ["31", 47, "Big review"],
+  ]],
+];
+
+const TODAS = {};
+MODULOS.forEach(function(m){ m[1].forEach(function(p){ TODAS[p[0]] = p; }); });
+
+var caja = document.getElementById("activa");
+var au   = document.getElementById("a-p");
+var err  = document.getElementById("err");
+
+document.getElementById("lista").innerHTML = MODULOS.map(function(m){
+  var nom = m[0], ps = m[1];
+  return '<h2>' + nom + '</h2><ul>' + ps.map(function(p){
+    return '<li id="li-' + p[0] + '"><a href="#' + p[0] + '" data-n="' + p[0] + '">' +
+           '<span class="num">' + p[0] + '</span>' +
+           '<span class="txt"><span class="ti">' + p[2] + '</span><br>' +
+           '<span class="ho">Hoja ' + p[1] + '</span></span>' +
+           '<span class="ic">&#9654;</span></a></li>';
+  }).join('') + '</ul>';
+}).join('');
+
+// FIX 1 · el clic siempre abre, aunque el hash no cambie.
+// hashchange NO dispara si vuelve a hacer clic en la pista que ya está abierta.
+// Ese era el bug de "no puedo volver a escuchar".
+document.querySelectorAll("li a").forEach(function(a){
+  a.addEventListener("click", function(e){
+    e.preventDefault();
+    var n = a.getAttribute("data-n");
+    if (location.hash !== "#" + n) history.replaceState(null, "", "#" + n);
+    abrir(n);
+  });
+});
+
+// el QR entra por aquí
+window.addEventListener("hashchange", function(){ abrir(location.hash.slice(1)); });
+
+function abrir(n){
+  var p = TODAS[n];
+  if (!p) { caja.classList.remove("on"); return; }
+
+  document.querySelectorAll("li.sel").forEach(function(e){ e.classList.remove("sel"); });
+  var li = document.getElementById("li-" + n);
+  if (li) li.classList.add("sel");
+
+  document.getElementById("a-n").textContent = "PISTA " + p[0];
+  document.getElementById("a-t").textContent = p[2];
+  document.getElementById("a-h").textContent = "Hoja " + p[1];
+
+  err.classList.remove("on");
+
+  // FIX 2 · recargar de verdad. Sin pause + currentTime=0 + load(),
+  // volver a la misma pista deja el <audio> donde quedó y no vuelve a sonar.
+  var url = AUDIO + "p" + p[0] + ".mp3";
+  au.pause();
+  try { au.currentTime = 0; } catch (e) {}
+  au.setAttribute("src", url);
+  au.load();
+
+  caja.classList.add("on");
+  caja.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+// FIX 3 · si el archivo no está, que la página diga la ruta exacta que intentó.
+au.addEventListener("error", function(){
+  var s = au.getAttribute("src");
+  if (!s) return;
+  document.getElementById("err-url").textContent = new URL(s, location.href).href;
+  err.classList.add("on");
+});
+
+abrir(location.hash.slice(1));
+</script>
+</body>
+</html>
