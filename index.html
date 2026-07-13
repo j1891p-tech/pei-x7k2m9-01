@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audios · Inglés Grado 1 · PEI</title>
+<style>
+  :root{
+    --tinta:#1f2430; --suave:#6b7280; --linea:#e3e6ec;
+    --fondo:#faf9f7; --acento:#2f6f6b; --acento-suave:#e6f0ef;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--fondo); color:var(--tinta);
+    -webkit-font-smoothing:antialiased; padding:0 18px 64px;
+  }
+  header{max-width:640px;margin:0 auto;padding:36px 0 20px;border-bottom:1px solid var(--linea)}
+  h1{font-size:1.45rem;letter-spacing:-.01em}
+  header p{color:var(--suave);font-size:.92rem;margin-top:6px}
+  main{max-width:640px;margin:0 auto}
+  .pista{
+    display:flex;align-items:center;gap:14px;
+    padding:16px 14px;margin-top:12px;
+    background:#fff;border:1px solid var(--linea);border-radius:12px;
+    scroll-margin-top:16px;
+  }
+  .pista.activa{border-color:var(--acento);background:var(--acento-suave)}
+  .num{
+    flex:0 0 46px;height:46px;border-radius:10px;
+    background:var(--acento);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:1rem;
+  }
+  .pista.activa .num{background:#1f4f4c}
+  .meta{flex:1;min-width:0}
+  .tema{font-weight:600;font-size:1rem}
+  .sub{color:var(--suave);font-size:.8rem;margin-top:2px}
+  audio{width:100%;margin-top:10px;height:38px}
+  .fila{flex-wrap:wrap}
+  footer{max-width:640px;margin:36px auto 0;color:var(--suave);font-size:.8rem;text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Audios · Inglés Grado 1</h1>
+  <p>Proyecto Editorial Ideas · 31 pistas · escanea el QR de tu hoja.</p>
+</header>
+
+<main id="lista"></main>
+
+<footer>© Proyecto Editorial Ideas · Audios originales</footer>
+
+<script>
+const PISTAS = [
+  {n:"01", tema:"Hello! I am…", hoja:1, mod:"M1 · Cuido mi cuerpo"},
+  {n:"02", tema:"Listen and point", hoja:2, mod:"M1 · Cuido mi cuerpo"},
+  {n:"03", tema:"RONDA · Head and hands", hoja:3, mod:"M1 · Cuido mi cuerpo"},
+  {n:"04", tema:"Color the body", hoja:4, mod:"M1 · Cuido mi cuerpo"},
+  {n:"05", tema:"Nose, mouth, ears", hoja:5, mod:"M1 · Cuido mi cuerpo"},
+  {n:"06", tema:"My morning routine", hoja:7, mod:"M1 · Cuido mi cuerpo"},
+  {n:"07", tema:"Numbers 1–5", hoja:9, mod:"M1 · Cuido mi cuerpo"},
+  {n:"08", tema:"CUENTO 1 · Ana's hands", hoja:11, mod:"M1 · Cuido mi cuerpo"},
+  {n:"09", tema:"I am a boy / I am a girl", hoja:13, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"10", tema:"How old are you?", hoja:14, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"11", tema:"Tall / short", hoja:15, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"12", tema:"Long hair / short hair", hoja:16, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"13", tema:"My mother has long hair", hoja:17, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"14", tema:"RONDA · We are different", hoja:19, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"15", tema:"Please · Thank you · Sorry", hoja:20, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"16", tema:"CUENTO 2 · The sad girl", hoja:23, mod:"M2 · Valoro nuestras diferencias"},
+  {n:"17", tema:"My classroom", hoja:25, mod:"M3 · Cuido mi escuela"},
+  {n:"18", tema:"Use red to color the circle", hoja:26, mod:"M3 · Cuido mi escuela"},
+  {n:"19", tema:"Shapes around me", hoja:27, mod:"M3 · Cuido mi escuela"},
+  {n:"20", tema:"The pencil is on the table", hoja:29, mod:"M3 · Cuido mi escuela"},
+  {n:"21", tema:"RONDA · Clean up!", hoja:30, mod:"M3 · Cuido mi escuela"},
+  {n:"22", tema:"Pick up · throw · clean", hoja:31, mod:"M3 · Cuido mi escuela"},
+  {n:"23", tema:"CUENTO 3 · The dirty classroom", hoja:35, mod:"M3 · Cuido mi escuela"},
+  {n:"24", tema:"This is my family", hoja:37, mod:"M4 · Colaboro en mi casa"},
+  {n:"25", tema:"This is my mother", hoja:39, mod:"M4 · Colaboro en mi casa"},
+  {n:"26", tema:"My house", hoja:40, mod:"M4 · Colaboro en mi casa"},
+  {n:"27", tema:"The cat is on the bed", hoja:41, mod:"M4 · Colaboro en mi casa"},
+  {n:"28", tema:"Help · share · wash · cook", hoja:42, mod:"M4 · Colaboro en mi casa"},
+  {n:"29", tema:"RONDA · I help my family", hoja:44, mod:"M4 · Colaboro en mi casa"},
+  {n:"30", tema:"CUENTO 4 · I help my mother", hoja:46, mod:"M4 · Colaboro en mi casa"},
+  {n:"31", tema:"Big review", hoja:47, mod:"M4 · Colaboro en mi casa"}
+];
+
+const lista = document.getElementById("lista");
+lista.innerHTML = PISTAS.map(p => `
+  <section class="pista fila" id="${p.n}">
+    <div class="num">${p.n}</div>
+    <div class="meta">
+      <div class="tema">${p.tema}</div>
+      <div class="sub">Hoja ${p.hoja} · ${p.mod}</div>
+    </div>
+    <audio controls preload="none" src="audio/p${p.n}.mp3"></audio>
+  </section>
+`).join("");
+
+// Deep-link: /#12 resalta, centra y reproduce la pista 12.
+function irAPista(){
+  const id = location.hash.replace("#","").padStart(2,"0");
+  document.querySelectorAll(".pista").forEach(s => s.classList.remove("activa"));
+  const destino = document.getElementById(id);
+  if(!destino) return;
+  destino.classList.add("activa");
+  destino.scrollIntoView({behavior:"smooth", block:"center"});
+  const a = destino.querySelector("audio");
+  document.querySelectorAll("audio").forEach(x => { if(x!==a) x.pause(); });
+  a.play().catch(()=>{ /* el navegador exige un toque: el control ya está a la vista */ });
+}
+window.addEventListener("hashchange", irAPista);
+if(location.hash) setTimeout(irAPista, 120);
+
+// Una sola pista sonando a la vez.
+document.querySelectorAll("audio").forEach(a => {
+  a.addEventListener("play", () => {
+    document.querySelectorAll("audio").forEach(x => { if(x!==a) x.pause(); });
+  });
+});
+</script>
+</body>
+</html>
